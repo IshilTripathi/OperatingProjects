@@ -28,17 +28,12 @@ void Arrival_Time_Sorting()
       }
 }
 void round_robin(int time,int size){
-  int total = 0;
-  int i;
-  int x = size;
-  int time_quantum = time;
-  int counter = 0;
-  int wait_time = 0, turnaround_time = 0;
-  int z=0;
-  for(z=0;z<size;z++){
-  	//printf("%d %d\n",roundRobin[z].arrival_time,roundRobin[z].burst_time);
-    printf("%c\n",roundRobin[z].process_name);///////////////////  
-  }
+  int i, limit, total = 0, x, counter = 0, time_quantum; 
+  int wait_time = 0, turnaround_time = 0; 
+  limit = size;
+  x = limit;
+  time_quantum = time;
+  printf("\nProcess ID\t\tBurst Time\t Turnaround Time\t Waiting Time\n");
   for(total = 0, i = 0; x != 0;) 
       { 
             if(roundRobin[i].burst_time <= time_quantum && roundRobin[i].burst_time > 0) 
@@ -55,12 +50,12 @@ void round_robin(int time,int size){
             if(roundRobin[i].burst_time == 0 && counter == 1) 
             { 
                   x--; 
-                  printf("\n%c\t\t%d\t\t %d\t\t\t %d",roundRobin[i+1].process_name,roundRobin[i].burst_time, total - roundRobin[i].arrival_time, total - roundRobin[i].arrival_time - roundRobin[i].burst_time);
-                  wait_time = wait_time + total - roundRobin[i].arrival_time - roundRobin[i].burst_time; 
+                  printf("\nProcess[%d]\t\t%d\t\t %d\t\t\t %d", i + 1, roundRobin[i].ct, total - roundRobin[i].arrival_time, total - roundRobin[i].arrival_time - roundRobin[i].ct);
+                  wait_time = wait_time + total - roundRobin[i].arrival_time - roundRobin[i].ct; 
                   turnaround_time = turnaround_time + total - roundRobin[i].arrival_time; 
-                  counter = 0;
+                  counter = 0; 
             } 
-            if(i == size - 1) 
+            if(i == limit - 1) 
             {
                   i = 0; 
             }
@@ -72,7 +67,7 @@ void round_robin(int time,int size){
             {
                   i = 0;
             }
-      }
+      } 
 }
 void main()
 {
@@ -126,6 +121,7 @@ void main()
 						r++;
 						roundRobin[r] = process_queue[largest];
 						roundRobin[r].arrival_time = time;
+						roundRobin[r].ct = roundRobin[r].burst_time;
 						process_queue[largest].enter = 1;
                   	    process_queue[largest].status = 1;
                   	    burst_time = burst_time - process_queue[largest].burst_time;
@@ -185,4 +181,3 @@ void main()
 	  round_robin(quant_time,r+1);
       
 }
-
